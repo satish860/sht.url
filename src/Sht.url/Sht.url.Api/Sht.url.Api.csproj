@@ -17,8 +17,4 @@
     <PackageReference Include="Nanoid" Version="2.1.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Api\GetUrl\" />
-  </ItemGroup>
-
 </Project>
