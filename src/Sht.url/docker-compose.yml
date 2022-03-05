@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  sht.url.api:
+    image: ${DOCKER_REGISTRY-}shturlapi
+    build:
+      context: .
+      dockerfile: Sht.url.Api/Dockerfile

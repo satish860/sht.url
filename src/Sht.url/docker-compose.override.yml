@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  sht.url.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
