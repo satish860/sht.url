@@ -1,8 +1,14 @@
 version: '3.4'
 
 services:
+  shtdb:
+    container_name: shtdb
+    restart: always
+    ports:
+      - '6379:6379'
   sht.url.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - Redis__ConnectionString=shtdb:6379
     ports:
-      - "80"
+      - "9000:80"

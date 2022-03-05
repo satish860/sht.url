@@ -1,9 +1,17 @@
 ﻿using FastEndpoints;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace Sht.url.Api.Api.CreateUrl
 {
     public class Endpoint : Endpoint<CreateShortUrl,CreateShortUrlResponse>
     {
+        private readonly IDistributedCache distributedCache;
+
+        public Endpoint(IDistributedCache distributedCache)
+        {
+            this.distributedCache = distributedCache;
+        }
+
         public override void Configure()
         {
             Post("/links");
@@ -13,9 +21,11 @@ namespace Sht.url.Api.Api.CreateUrl
         public override async Task HandleAsync(CreateShortUrl req, CancellationToken ct)
         {
             var slug = await Nanoid.Nanoid.GenerateAsync("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 12);
+            var shortUrl = $"{_httpContext.Request.Scheme}://{_httpContext.Request.Host}/{slug}";
+            await this.distributedCache.SetStringAsync(slug, req.Url);
             await SendAsync(new CreateShortUrlResponse
             {
-                ShortUrl = $"{_httpContext.Request.Scheme}://{_httpContext.Request.Host}/{slug}",
+                ShortUrl = shortUrl,
                 Url = req.Url,
             }) ;
         }
