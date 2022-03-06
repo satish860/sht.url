@@ -27,11 +27,9 @@ namespace Sht.url.Api.Api.GetUrl
             }
             else
             {
-                HttpContext.Response.StatusCode = 301;
-                HttpContext.Response.Redirect(url);
-                await HttpContext.Response.StartAsync();
+                await SendRedirectAsync(url, true, ct);
             }
-            
+
         }
     }
 }

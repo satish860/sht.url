@@ -21,7 +21,7 @@ namespace Sht.url.Api.Api.CreateUrl
         public override async Task HandleAsync(CreateShortUrl req, CancellationToken ct)
         {
             var slug = await Nanoid.Nanoid.GenerateAsync("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 12);
-            var shortUrl = $"{_httpContext.Request.Scheme}://{_httpContext.Request.Host}/{slug}";
+            var shortUrl = $"{BaseURL}{slug}";
             await this.distributedCache.SetStringAsync(slug, req.Url);
             await SendAsync(new CreateShortUrlResponse
             {
