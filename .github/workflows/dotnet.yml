@@ -21,3 +21,15 @@ jobs:
       run: dotnet restore src/Sht.url/Sht.url.sln
     - name: Build
       run: dotnet build --no-restore src/Sht.url/Sht.url.sln
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Build Sht.url
+      uses: docker/build-push-action@v2.9.0
+      with:
+        context: src/
+        push: true
+        file: src/Sht.url/Sht.url.Api/Dockerfile
+        tags: satish860/shturl:v${{ github.run_number }}
